@@ -49,6 +49,18 @@ void Window::run(void) {
             }
         }
         SDL_RenderClear(_renderer);
+
+        for (int x = 0; x < _display_mode.w; x++) {
+            for (int y = 0; y < _display_mode.h; y++) {
+                setPixel(x, y, Color(std::rand() % 255, std::rand() % 255, std::rand() % 255, 255));
+            }
+        }
+
         SDL_RenderPresent(_renderer);
     }
+}
+
+void Window::setPixel(int x, int y, Color color) {
+    SDL_SetRenderDrawColor(_renderer, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+    SDL_RenderDrawPoint(_renderer, x, y);
 }

@@ -12,6 +12,8 @@
 
 #include <SDL2/SDL.h>
 
+#include "Color.hpp"
+
 class Window {
 public:
     Window(void);
@@ -19,6 +21,8 @@ public:
     ~Window(void);
 
     void run(void);
+
+    void setPixel(int x, int y, Color color);
 
 private:
     SDL_DisplayMode _display_mode;
