@@ -14,11 +14,17 @@
 
 #include "Color.hpp"
 
+#define FRAME_DELAY 1000 / 24
+
 class Window {
 public:
     Window(void);
 
     ~Window(void);
+
+    int getWidth(void) const;
+
+    int getHeight(void) const;
 
     void run(void);
 
@@ -28,6 +34,7 @@ private:
     SDL_DisplayMode _display_mode;
     SDL_Window *_window;
     SDL_Renderer *_renderer;
+    bool _running;
 };
 
 #endif  // WINDOW_HPP

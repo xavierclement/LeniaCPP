@@ -36,27 +36,48 @@ Window::~Window(void) {
     SDL_Quit();
 }
 
+int Window::getWidth(void) const {
+    return _display_mode.w;
+}
+
+int Window::getHeight(void) const {
+    return _display_mode.h;
+}
+
 void Window::run(void) {
     SDL_Event event;
-    bool running = true;
+    Uint32 frameStart;
+    int frameTime;
 
-    while (running) {
+    _running = true;
+    while (_running) {
+        frameStart = SDL_GetTicks();
+
         while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                _running = false;
+            }
             if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
-                    running = false;
+                    _running = false;
                 }
             }
         }
+
         SDL_RenderClear(_renderer);
 
-        for (int x = 0; x < _display_mode.w; x++) {
-            for (int y = 0; y < _display_mode.h; y++) {
-                setPixel(x, y, Color(std::rand() % 255, std::rand() % 255, std::rand() % 255, 255));
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                setPixel(x, y, Color(0, 0, 0, 255));
             }
         }
 
         SDL_RenderPresent(_renderer);
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if (FRAME_DELAY > frameTime) {
+            SDL_Delay(FRAME_DELAY - frameTime);
+        }
     }
 }
 
